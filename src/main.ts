@@ -11,9 +11,10 @@ const start = async () => {
     const app = await NestFactory.create(AppModule)
 
     const corsOptions: CorsOptions = {
-      origin:  process.env.CLIENT_URL, 
+      origin: 'https://frontend-book-nine.vercel.app', 
       credentials: true, 
-    }
+    };
+    
     app.use(cookieParser());
     app.enableCors(corsOptions)
 
