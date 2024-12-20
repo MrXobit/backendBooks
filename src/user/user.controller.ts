@@ -25,7 +25,7 @@ export class UserController {
         const {email, password} = body
 
         const userData = await this.userService.registration(email, password, picture)
-        res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+        res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true,  sameSite: 'none',})
         return res.json(userData)
     } catch (e) {
         if (e instanceof ApiError) {
@@ -41,7 +41,7 @@ export class UserController {
         try {
             const {email, password} = body
             const userData = await this.userService.login(email, password)
-            res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+            res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true,  secure: true,})
         return res.json(userData)
         }  catch (e) {
             if (e instanceof ApiError) {
@@ -94,7 +94,7 @@ export class UserController {
             }
 
          const userData = await this.userService.refresh(refreshToken)
-         res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+         res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true,  secure: true,})
          return res.json(userData)
         } catch(e) {
             console.error('Error:', e.message); 
@@ -194,7 +194,7 @@ async refreshResetToken(@Req() req: Request, @Res() res: Response) {
         }
 
      const userData = await this.userService.refreshResetToken(resetToken)
-     res.cookie('resetToken', userData.resetToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+     res.cookie('resetToken', userData.resetToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true,  secure: true,})
      return res.json({...userData})
     }catch (e) {
         if (e instanceof ApiError) {
